@@ -11,12 +11,11 @@ logger = logging.getLogger(__name__)
 class GreeterService(greet_pb2_grpc.GreeterServicer):
     def SayHello(self, request, context):
         logger.info(f"Received request: {request.name}")
-        
-        metadata = dict(context.invocation_metadata())
-        if metadata:
-            logger.info(f"Metadata received: {metadata}")
-        
         return greet_pb2.HelloReply(message=f"Hello, {request.name}!")
+    
+    def SayHelloWorld(self, request, context):
+        logger.info("Received request for 'Hello World' method")
+        return greet_pb2.HelloReply(message="Hello World!")
 
 def serve():
     server = grpc.server(futures.ThreadPoolExecutor(max_workers=10))
